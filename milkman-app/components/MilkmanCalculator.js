@@ -167,6 +167,48 @@ const MilkmanCalculator = () => {
         return category === 1 ? defaultCategory1 : defaultCategory2;
     };
 
+    // Function to determine the status of a day
+    const getDayStatus = (date) => {
+        const dateKey = formatDate(date);
+        const override = overrides[dateKey];
+
+        if (!override) {
+            return 'default'; // No override exists
+        }
+
+        // Check if both categories are 0 (no delivery)
+        if (override.category1 === 0 && override.category2 === 0) {
+            return 'no-delivery';
+        }
+
+        // Check if either category differs from default
+        const hasOverride = override.category1 !== defaultCategory1 || override.category2 !== defaultCategory2;
+        if (hasOverride) {
+            return 'override';
+        }
+
+        return 'default';
+    };
+
+    // Function to get day styling based on status
+    const getDayClassName = (date, isSelected) => {
+        const status = getDayStatus(date);
+        const baseClasses = "w-full h-full p-2 rounded-lg border-2 transition-all";
+
+        if (isSelected) {
+            return `${baseClasses} border-blue-500 bg-blue-50`;
+        }
+
+        switch (status) {
+            case 'no-delivery':
+                return `${baseClasses} border-red-300 bg-red-50 hover:border-red-400`;
+            case 'override':
+                return `${baseClasses} border-orange-300 bg-orange-50 hover:border-orange-400`;
+            default:
+                return `${baseClasses} border-gray-200 hover:border-gray-300 bg-white`;
+        }
+    };
+
     const updateOverride = async (date, category, amount) => {
         const dateKey = formatDate(date);
         const parsedAmount = parseFloat(amount) || 0;
@@ -277,7 +319,7 @@ const MilkmanCalculator = () => {
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <Calendar className="w-8 h-8 text-blue-600" />
-                            <h1 className="text-2xl font-bold text-gray-800">Milkman Bill Calculator</h1>
+                            <h1 className="text-2xl font-bold text-gray-800">Dairy Bill Calculator</h1>
                         </div>
                         <div className="flex gap-3">
                             <button
@@ -320,6 +362,25 @@ const MilkmanCalculator = () => {
                                 </div>
                             </div>
 
+                            {/* Color Legend */}
+                            <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+                                <div className="text-sm font-medium text-gray-700 mb-2">Legend:</div>
+                                <div className="flex flex-wrap gap-4 text-xs">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-4 h-4 border-2 border-gray-200 bg-white rounded"></div>
+                                        <span>Default</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-4 h-4 border-2 border-orange-300 bg-orange-50 rounded"></div>
+                                        <span>Modified</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-4 h-4 border-2 border-red-300 bg-red-50 rounded"></div>
+                                        <span>No Delivery</span>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div className="grid grid-cols-7 gap-2 mb-4">
                                 {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
                                     <div key={day} className="text-center font-medium text-gray-600 py-2">
@@ -337,11 +398,10 @@ const MilkmanCalculator = () => {
                                                     e.stopPropagation();
                                                     setSelectedDate(day);
                                                 }}
-                                                className={`w-full h-full p-2 rounded-lg border-2 transition-all ${
+                                                className={getDayClassName(
+                                                    day,
                                                     selectedDate && formatDate(selectedDate) === formatDate(day)
-                                                        ? 'border-blue-500 bg-blue-50'
-                                                        : 'border-gray-200 hover:border-gray-300 bg-white'
-                                                }`}
+                                                )}
                                             >
                                                 <div className="text-sm font-medium text-gray-800">
                                                     {day.getDate()}
