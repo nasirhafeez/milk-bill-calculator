@@ -211,7 +211,8 @@ const MilkmanCalculator = () => {
 
     const updateOverride = async (date, category, amount) => {
         const dateKey = formatDate(date);
-        const parsedAmount = parseFloat(amount) || 0;
+        // Handle empty string separately to allow clearing the field
+        const parsedAmount = amount === '' ? 0 : (parseFloat(amount) || 0);
 
         // Get current values for both categories
         const currentCategory1 = getAmountForDay(date, 1);
@@ -502,9 +503,12 @@ const MilkmanCalculator = () => {
                                         <input
                                             type="number"
                                             step="0.1"
+                                            min="0"
                                             value={getAmountForDay(selectedDate, 1)}
                                             onChange={(e) => updateOverride(selectedDate, 1, e.target.value)}
+                                            onFocus={(e) => e.target.select()}
                                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            inputMode="decimal"
                                         />
                                     </div>
                                     <div>
@@ -514,9 +518,12 @@ const MilkmanCalculator = () => {
                                         <input
                                             type="number"
                                             step="0.1"
+                                            min="0"
                                             value={getAmountForDay(selectedDate, 2)}
                                             onChange={(e) => updateOverride(selectedDate, 2, e.target.value)}
+                                            onFocus={(e) => e.target.select()}
                                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            inputMode="decimal"
                                         />
                                     </div>
                                     <button
