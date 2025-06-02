@@ -10,7 +10,7 @@ export default async function handler(req, res) {
         if (req.method === 'GET') {
             const settings = await collection.findOne({});
             res.status(200).json(settings || {
-                globalRate: 60,
+                globalRate: 150,
                 defaultCategory1: 2.0,
                 defaultCategory2: 2.5
             });

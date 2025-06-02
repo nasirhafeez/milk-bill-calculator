@@ -193,7 +193,7 @@ const MilkmanCalculator = () => {
     // Function to get day styling based on status
     const getDayClassName = (date, isSelected) => {
         const status = getDayStatus(date);
-        const baseClasses = "w-full h-full p-2 rounded-lg border-2 transition-all";
+        const baseClasses = "w-full h-full p-1 sm:p-2 rounded-lg border-2 transition-all text-left";
 
         if (isSelected) {
             return `${baseClasses} border-blue-500 bg-blue-50`;
@@ -311,85 +311,90 @@ const MilkmanCalculator = () => {
 
     return (
         <div
-            className="min-h-screen bg-gray-50 p-4"
+            className="min-h-screen bg-gray-50 p-2 sm:p-4"
             onClick={handleBackgroundClick}
         >
             <div className="max-w-6xl mx-auto">
-                <header className="bg-white rounded-lg shadow-sm p-6 mb-6">
-                    <div className="flex items-center justify-between">
+                <header className="bg-white rounded-lg shadow-sm p-4 sm:p-6 mb-4 sm:mb-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                         <div className="flex items-center gap-3">
-                            <Calendar className="w-8 h-8 text-blue-600" />
-                            <h1 className="text-2xl font-bold text-gray-800">Dairy Bill Calculator</h1>
+                            <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
+                            <h1 className="text-xl sm:text-2xl font-bold text-gray-800">Dairy Bill Calculator</h1>
                         </div>
-                        <div className="flex gap-3">
+
+                        {/* Mobile: Stack buttons vertically */}
+                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                             <button
                                 onClick={() => setShowSettings(!showSettings)}
-                                className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                                className="flex items-center justify-center sm:justify-start gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
                                 disabled={saving}
                             >
                                 {saving ? <Loader className="w-4 h-4 animate-spin" /> : <Settings className="w-4 h-4" />}
-                                Settings
+                                <span className="sm:inline">Settings</span>
                             </button>
                             <button
                                 onClick={() => setShowBill(!showBill)}
-                                className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                                className="flex items-center justify-center sm:justify-start gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
                             >
                                 <Calculator className="w-4 h-4" />
-                                View Bill
+                                <span className="sm:inline">View Bill</span>
                             </button>
                         </div>
                     </div>
                 </header>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" onClick={(e) => e.stopPropagation()}>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6" onClick={(e) => e.stopPropagation()}>
                     <div className="lg:col-span-2">
-                        <div className="bg-white rounded-lg shadow-sm p-6">
-                            <div className="flex items-center justify-between mb-6">
-                                <h2 className="text-xl font-semibold text-gray-800">{monthName}</h2>
+                        <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+                            <div className="flex items-center justify-between mb-4 sm:mb-6">
+                                <h2 className="text-lg sm:text-xl font-semibold text-gray-800">{monthName}</h2>
                                 <div className="flex gap-2">
                                     <button
                                         onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1))}
-                                        className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded text-sm"
+                                        className="px-2 sm:px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded text-xs sm:text-sm"
                                     >
-                                        Previous
+                                        Prev
                                     </button>
                                     <button
                                         onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1))}
-                                        className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded text-sm"
+                                        className="px-2 sm:px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded text-xs sm:text-sm"
                                     >
                                         Next
                                     </button>
                                 </div>
                             </div>
 
-                            {/* Color Legend */}
-                            <div className="mb-4 p-3 bg-gray-50 rounded-lg">
-                                <div className="text-sm font-medium text-gray-700 mb-2">Legend:</div>
-                                <div className="flex flex-wrap gap-4 text-xs">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-4 h-4 border-2 border-gray-200 bg-white rounded"></div>
+                            {/* Color Legend - Optimized for mobile */}
+                            <div className="mb-4 p-2 sm:p-3 bg-gray-50 rounded-lg">
+                                <div className="text-xs sm:text-sm font-medium text-gray-700 mb-2">Legend:</div>
+                                <div className="grid grid-cols-3 sm:flex sm:flex-wrap gap-2 sm:gap-4 text-xs">
+                                    <div className="flex items-center gap-1 sm:gap-2">
+                                        <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-gray-200 bg-white rounded"></div>
                                         <span>Default</span>
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-4 h-4 border-2 border-orange-300 bg-orange-50 rounded"></div>
+                                    <div className="flex items-center gap-1 sm:gap-2">
+                                        <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-orange-300 bg-orange-50 rounded"></div>
                                         <span>Modified</span>
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-4 h-4 border-2 border-red-300 bg-red-50 rounded"></div>
+                                    <div className="flex items-center gap-1 sm:gap-2">
+                                        <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-red-300 bg-red-50 rounded"></div>
                                         <span>No Delivery</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-7 gap-2 mb-4">
-                                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                                    <div key={day} className="text-center font-medium text-gray-600 py-2">
-                                        {day}
+                            <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-2 sm:mb-4">
+                                {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
+                                    <div key={index} className="text-center font-medium text-gray-600 py-1 sm:py-2 text-xs sm:text-sm">
+                                        <span className="hidden sm:inline">
+                                            {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][index]}
+                                        </span>
+                                        <span className="sm:hidden">{day}</span>
                                     </div>
                                 ))}
                             </div>
 
-                            <div className="grid grid-cols-7 gap-2">
+                            <div className="grid grid-cols-7 gap-1 sm:gap-2">
                                 {days.map((day, index) => (
                                     <div key={index} className="aspect-square">
                                         {day && (
@@ -403,12 +408,19 @@ const MilkmanCalculator = () => {
                                                     selectedDate && formatDate(selectedDate) === formatDate(day)
                                                 )}
                                             >
-                                                <div className="text-sm font-medium text-gray-800">
+                                                <div className="text-xs sm:text-sm font-medium text-gray-800 mb-1">
                                                     {day.getDate()}
                                                 </div>
-                                                <div className="text-xs text-gray-500 mt-1">
-                                                    <div>C1: {getAmountForDay(day, 1)}L</div>
-                                                    <div>C2: {getAmountForDay(day, 2)}L</div>
+                                                {/* Mobile: Stack vertically, Desktop: Show inline */}
+                                                <div className="text-xs text-gray-500">
+                                                    <div className="hidden sm:block">
+                                                        <div>C1: {getAmountForDay(day, 1)}L</div>
+                                                        <div>C2: {getAmountForDay(day, 2)}L</div>
+                                                    </div>
+                                                    {/* Mobile: Compact format */}
+                                                    <div className="sm:hidden text-center">
+                                                        <div>{getAmountForDay(day, 1)}/{getAmountForDay(day, 2)}</div>
+                                                    </div>
                                                 </div>
                                             </button>
                                         )}
@@ -418,9 +430,9 @@ const MilkmanCalculator = () => {
                         </div>
                     </div>
 
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                         {showSettings && (
-                            <div className="bg-white rounded-lg shadow-sm p-6">
+                            <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
                                 <h3 className="text-lg font-semibold text-gray-800 mb-4">Settings</h3>
                                 <div className="space-y-4">
                                     <div>
@@ -469,9 +481,9 @@ const MilkmanCalculator = () => {
                         )}
 
                         {selectedDate && (
-                            <div className="bg-white rounded-lg shadow-sm p-6">
+                            <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
                                 <div className="flex items-center justify-between mb-4">
-                                    <h3 className="text-lg font-semibold text-gray-800">
+                                    <h3 className="text-base sm:text-lg font-semibold text-gray-800">
                                         Override for {selectedDate.toLocaleDateString()}
                                     </h3>
                                     <button
@@ -518,8 +530,8 @@ const MilkmanCalculator = () => {
                         )}
 
                         {showBill && (
-                            <div className="bg-white rounded-lg shadow-sm p-6">
-                                <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                            <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+                                <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-4">
                                     Bill Summary - {monthName}
                                 </h3>
                                 <div className="space-y-4">
