@@ -193,7 +193,7 @@ const MilkmanCalculator = () => {
     // Function to get day styling based on status
     const getDayClassName = (date, isSelected) => {
         const status = getDayStatus(date);
-        const baseClasses = "w-full h-full p-1 sm:p-2 rounded-lg border-2 transition-all text-left";
+        const baseClasses = "w-full h-full p-1 sm:p-2 rounded-lg border-2 transition-all text-center";
 
         if (isSelected) {
             return `${baseClasses} border-blue-500 bg-blue-50`;
@@ -415,8 +415,8 @@ const MilkmanCalculator = () => {
                                                 {/* Mobile: Stack vertically, Desktop: Show inline */}
                                                 <div className="text-xs text-gray-500">
                                                     <div className="hidden sm:block">
-                                                        <div>C1: {getAmountForDay(day, 1)}L</div>
-                                                        <div>C2: {getAmountForDay(day, 2)}L</div>
+                                                        <div>D: {getAmountForDay(day, 1)}L</div>
+                                                        <div>H: {getAmountForDay(day, 2)}L</div>
                                                     </div>
                                                     {/* Mobile: Compact format */}
                                                     <div className="sm:hidden text-center">
@@ -449,7 +449,7 @@ const MilkmanCalculator = () => {
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                                            Default Category 1 (L/day)
+                                            Default Donation (L/day)
                                         </label>
                                         <input
                                             type="number"
@@ -461,7 +461,7 @@ const MilkmanCalculator = () => {
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                                            Default Category 2 (L/day)
+                                            Default Home (L/day)
                                         </label>
                                         <input
                                             type="number"
@@ -485,7 +485,7 @@ const MilkmanCalculator = () => {
                             <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
                                 <div className="flex items-center justify-between mb-4">
                                     <h3 className="text-base sm:text-lg font-semibold text-gray-800">
-                                        Override for {selectedDate.toLocaleDateString()}
+                                        Override for {selectedDate.toLocaleDateString('en-GB')}
                                     </h3>
                                     <button
                                         onClick={() => setSelectedDate(null)}
@@ -498,7 +498,7 @@ const MilkmanCalculator = () => {
                                 <div className="space-y-4">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                                            Category 1 (Liters)
+                                            Donation (Liters)
                                         </label>
                                         <input
                                             type="number"
@@ -513,7 +513,7 @@ const MilkmanCalculator = () => {
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                                            Category 2 (Liters)
+                                            Home (Liters)
                                         </label>
                                         <input
                                             type="number"
@@ -543,7 +543,7 @@ const MilkmanCalculator = () => {
                                 </h3>
                                 <div className="space-y-4">
                                     <div className="border-b pb-4">
-                                        <h4 className="font-medium text-gray-700 mb-2">Category 1</h4>
+                                        <h4 className="font-medium text-gray-700 mb-2">Donation</h4>
                                         <div className="text-sm text-gray-600">
                                             <div>Total Liters: {bill.category1.totalLiters.toFixed(1)}L</div>
                                             <div>Active Days: {bill.category1.activeDays}</div>
@@ -553,7 +553,7 @@ const MilkmanCalculator = () => {
                                         </div>
                                     </div>
                                     <div className="border-b pb-4">
-                                        <h4 className="font-medium text-gray-700 mb-2">Category 2</h4>
+                                        <h4 className="font-medium text-gray-700 mb-2">Home</h4>
                                         <div className="text-sm text-gray-600">
                                             <div>Total Liters: {bill.category2.totalLiters.toFixed(1)}L</div>
                                             <div>Active Days: {bill.category2.activeDays}</div>
